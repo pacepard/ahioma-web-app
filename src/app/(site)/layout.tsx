@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import "../css/euclid-circular-a-font.css";
 import "../css/style.css";
 import Header from "../../components/Header";
@@ -22,6 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [loading, setLoading] = useState<boolean>(true);
+  const pathname = usePathname();
+  
+  // Check if current page is signup, signin, or onboarding
+  const isAuthPage = pathname === '/signup' || pathname === '/signin' || pathname?.startsWith('/onboarding');
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
@@ -38,7 +43,7 @@ export default function RootLayout({
               <CartModalProvider>
                 <ModalProvider>
                   <PreviewSliderProvider>
-                    <Header />
+                    {!isAuthPage && <Header />}
                     {children}
 
                     <QuickViewModal />
@@ -49,7 +54,7 @@ export default function RootLayout({
               </CartModalProvider>
             </ReduxProvider>
             <ScrollToTop />
-            <Footer />
+            {!isAuthPage && <Footer />}
           </>
         )}
       </body>

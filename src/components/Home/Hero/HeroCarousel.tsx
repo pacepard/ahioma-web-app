@@ -47,7 +47,7 @@ const HeroCarousal = () => {
 
             <a
               href="#"
-              className="inline-flex font-medium text-white text-custom-sm rounded-md bg-dark py-3 px-9 ease-out duration-200 hover:bg-blue mt-10"
+              className="inline-flex font-medium text-white text-custom-sm rounded-md bg-[#116735] py-3 px-9 ease-out duration-200 hover:bg-blue mt-10"
             >
               Shop Now
             </a>
@@ -89,7 +89,7 @@ const HeroCarousal = () => {
 
             <a
               href="#"
-              className="inline-flex font-medium text-white text-custom-sm rounded-md bg-dark py-3 px-9 ease-out duration-200 hover:bg-blue mt-10"
+              className="inline-flex font-medium text-white text-custom-sm rounded-md bg-[#116735] py-3 px-9 ease-out duration-200 hover:bg-blue mt-10"
             >
               Shop Now
             </a>
