@@ -11,6 +11,7 @@ const config: Config = {
   darkMode: "class",
   theme: {
     fontFamily: {
+      "montserrat": ["Montserrat", "sans-serif"],
       "euclid-circular-a": ["Euclid Circular A"],
     },
     container: {
@@ -51,13 +52,13 @@ const config: Config = {
         7: "#374151",
       },
       blue: {
-        DEFAULT: "#3C50E0",
-        dark: "#1C3FB7",
-        light: "#5475E5",
-        "light-2": "#8099EC",
-        "light-3": "#ADBCF2",
-        "light-4": "#C3CEF6",
-        "light-5": "#E1E8FF",
+        DEFAULT: "#116735",
+        dark: "#0D4A26",
+        light: "#1A8544",
+        "light-2": "#2DA353",
+        "light-3": "#4BC162",
+        "light-4": "#69DF71",
+        "light-5": "#B8F2C0",
       },
       red: {
         DEFAULT: "#F23030",
@@ -241,7 +242,7 @@ const config: Config = {
           "0px 0px 1px 0px rgba(33, 37, 41, 0.08), 0px 2px 2px 0px rgba(33, 37, 41, 0.06)",
         filter: "0px 1px 0px 0px #E5E7EB",
         list: "1px 0px 0px 0px #E5E7EB",
-        input: "inset 0 0 0 2px #3C50E0",
+        input: "inset 0 0 0 2px #116735",
       },
     },
   },
