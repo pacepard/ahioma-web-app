@@ -38,11 +38,13 @@ const HeroCarousal = () => {
             </div>
 
             <h1 className="font-semibold text-dark text-xl sm:text-3xl mb-3">
-              <a href="#">True Wireless Noise Cancelling Headphone</a>
+              <a href="#">Original Ell Novelty Honey</a>
             </h1>
 
             <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at ipsum at risus euismod lobortis in
+              The ultimate natural sweetener, harvested for exceptional flavor.
+              100% pure and unprocessed, retaining all the subtle, floral notes
+              and rich antioxidants that nature intended.
             </p>
 
             <a
@@ -55,7 +57,7 @@ const HeroCarousal = () => {
 
           <div>
             <Image
-              src="/images/hero/hero-01.png"
+              src="/images/hero/hero-001.jpg"
               alt="headphone"
               width={351}
               height={358}
@@ -77,14 +79,14 @@ const HeroCarousal = () => {
                 Off
               </span>
             </div>
-
-            <h1 className="font-semibold text-dark text-xl sm:text-3xl mb-3">
-              <a href="#">True Wireless Noise Cancelling Headphone</a>
+                 <h1 className="font-semibold text-dark text-xl sm:text-3xl mb-3">
+              <a href="#">Original Ell Novelty Honey</a>
             </h1>
 
             <p>
-              Lorem ipsum dolor sit, consectetur elit nunc suscipit non ipsum
-              nec suscipit.
+              The ultimate natural sweetener, harvested for exceptional flavor.
+              100% pure and unprocessed, retaining all the subtle, floral notes
+              and rich antioxidants that nature intended.
             </p>
 
             <a
@@ -97,7 +99,7 @@ const HeroCarousal = () => {
 
           <div>
             <Image
-              src="/images/hero/hero-01.png"
+              src="/images/hero/hero-001.jpg"
               alt="headphone"
               width={351}
               height={358}
