@@ -8,6 +8,7 @@ const Signup = () => {
       
       <section className="overflow-hidden py-5 ">
         <div className=" w-full flex  mx-auto px-4  sm:px-8 xl:px-0">
+            
         <div className="hidden lg:block px-5 lg:w-1/2 relative">
         <div 
           className="h-full rounded-[16px]  w-full bg-cover bg-center overflow-hidden relative "
