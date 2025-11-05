@@ -106,7 +106,7 @@ const SingleItem = ({ item }) => {
       </div>
 
       <div className="min-w-[200px]">
-        <p className="text-dark">${item.discountedPrice * quantity}</p>
+        <p className="text-dark">₦{item.discountedPrice * quantity}</p>
       </div>
 
       <div className="min-w-[50px] flex justify-end">
