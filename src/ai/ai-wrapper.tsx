@@ -1,68 +1,62 @@
-// "use client"
+"use client";
 
-// import type React from "react"
-// import { useState } from "react"
+import { AIChatButton } from "@/ai/ai-button";
+import { AIChat } from "@/ai/ai-chat";
+import CustomChat from "@/ai/chat";
+import { LoadingIcon, LogoIcon } from "@/components/Icons/icons";
+import { Chat } from "@/components/ui/chat";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogOverlay,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Bot } from "lucide-react";
+import { useState } from "react";
+
+interface AIButtonWrapperProps {
+  children: React.ReactNode;
+}
+
+export function AIButtonWrapper({ children }: AIButtonWrapperProps) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  return (
+    <>
+      {children}
+
+      <AIChatButton onClick={() => setIsDialogOpen(true)} />
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogOverlay className="bg-black/5 backdrop-blur-sm" />
+
+        <DialogContent
+          className="sm:max-w-2xl  flex flex-col p-10 overflow-hidden 
+                     rounded-xl shadow-2xl border-none bg-white/95 backdrop-blur
+                     data-[state=open]:duration-500 data-[state=open]:ease-out
+                     "
+        >
+          <DialogHeader className="p-4 border-b border-gray-100 bg-gray-50/50">
+            <DialogTitle className="flex items-center text-lg font-semibold text-gray-800">
+              <LogoIcon /> Buy with Ahioma AI
+            </DialogTitle>
+
+            <DialogDescription className="text-sm text-gray-600 pt-1">
+              Ask me anything about Ahiaoma products, services, or local
+              businesses.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-10">
+            <AIChat onClose={() => setIsDialogOpen(false)} />
+              
+          </div>
 
 
-// import { AIChatButton } from "@/ai/ai-button"
-
-// interface AIButtonWrapperProps {
-//   children: React.ReactNode
-// }
-
-// export function AIButtonWrapper({ children }: AIButtonWrapperProps) {
-//   const [isOpen, setIsOpen] = useState(false)
-
-//   return (
-//     <>
-//       {children}
-//       <AIChatButton onClick={() => setIsOpen(true)} />
-//       {isOpen && <AIChat onClose={() => setIsOpen(false)} />}
-//     </>
-//   )
-// }
-
-
-// "use client"
-
-// import { useState } from 'react'
-// import { CustomChat } from './CustomChat' // Adjust the path as needed
-// import { AIChatButton } from './AIChatButton' // Adjust the path as needed
-
-// export function ChatWidget() {
-//   // 1. State to track if the chat window is open
-//   const [isChatOpen, setIsChatOpen] = useState(false)
-
-//   // 2. Handler function to toggle the state
-//   const toggleChat = () => {
-//     setIsChatOpen(prev => !prev)
-//   }
-
-//   return (
-//     <>
-//       {/* 3. Conditionally render CustomChat based on the state */}
-//       {isChatOpen && (
-//         <div className="fixed inset-0 sm:inset-auto sm:bottom-20 sm:right-6 sm:w-[400px] sm:h-[600px] bg-white shadow-2xl rounded-xl z-50 flex flex-col">
-//           <div className="flex justify-between items-center p-4 border-b">
-//             <h2 className="text-lg font-semibold">AI Assistant</h2>
-//             <button onClick={toggleChat} className="text-gray-500 hover:text-gray-800">
-//               &times; {/* Close button */}
-//             </button>
-//           </div>
-//           <div className="flex-grow overflow-hidden">
-//              {/* The CustomChat component */}
-//              <CustomChat /> 
-//           </div>
-//         </div>
-//       )}
-
-//       {/* 4. The floating button, which always renders */}
-//       {/* It passes the toggleChat function to the AIChatButton's onClick prop */}
-//       {!isChatOpen && <AIChatButton onClick={toggleChat} />}
-      
-//       {/* Optional: Render the button *inside* the chat container or with a different visual/functionality when open */}
-//       {/* For simplicity, the example above just hides the button when the chat is open. */}
-//       {/* If you want the close button to be the AIChatButton, you'll need to slightly modify the AIChatButton component */}
-//     </>
-//   )
-// }
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}

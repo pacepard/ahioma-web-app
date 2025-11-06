@@ -21,6 +21,7 @@ interface MessageInputBaseProps
   isGenerating: boolean
   enableInterrupt?: boolean
   transcribeAudio?: (blob: Blob) => Promise<string>
+  onTranscriptionComplete?: (text: string) => void
 }
 
 interface MessageInputWithoutAttachmentProps extends MessageInputBaseProps {
