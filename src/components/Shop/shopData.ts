@@ -1,53 +1,53 @@
 import { Product } from "@/types/product";
 const shopData: Product[] = [
   {
-    title: "Havit HV-G69 USB Gamepad",
+    title: "Golden Penny Spaghetti",
     reviews: 15,
     price: 55799.0,
     discountedPrice: 25799.0,
     id: 1,
     imgs: {
       thumbnails: [
-        "/images/products/product-1-sm-1.png",
-        "/images/products/product-1-sm-2.png",
+        "/images/products/product-1-bg-1.png  ",
+        "/images/products/product-1-bg-1.png",
       ],
       previews: [
         "/images/products/product-1-bg-1.png",
-        "/images/products/product-1-bg-2.png",
+        "/images/products/product-1-bg-1.png",
       ],
     },
   },
   {
-    title: "iPhone 14 Plus , 6/128GB",
+    title: "Dangote Refined Sugar",
     reviews: 5,
     price: 89999.0,
     discountedPrice: 59999.0,
     id: 2,
     imgs: {
       thumbnails: [
-        "/images/products/product-2-sm-1.png",
-        "/images/products/product-2-sm-2.png",
+        "/images/products/product-2-bg-1.png",
+        "/images/products/product-2-bg-1.png",
       ],
       previews: [
         "/images/products/product-2-bg-1.png",
-        "/images/products/product-2-bg-2.png",
+        "/images/products/product-2-bg-1.png",
       ],
     },
   },
   {
-    title: "Apple iMac M1 24-inch 2021",
+    title: "House of Diddy Fascinator",
     reviews: 5,
     price: 55799.0,
     discountedPrice: 25799.0,
     id: 3,
     imgs: {
       thumbnails: [
-        "/images/products/product-3-sm-1.png",
-        "/images/products/product-3-sm-2.png",
+        "/images/products/product-3-bg-1.png",
+        "/images/products/product-3-bg-1.png",
       ],
       previews: [
         "/images/products/product-3-bg-1.png",
-        "/images/products/product-3-bg-2.png",
+        "/images/products/product-3-bg-1.png",
       ],
     },
   },
