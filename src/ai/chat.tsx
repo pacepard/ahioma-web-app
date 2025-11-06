@@ -151,7 +151,7 @@ export default function CustomChat({onClose}: IAIChat) {
                     <div className="dark:text-neutral-400 text-neutral-500 text-sm w-fit mb-1">
                       {userQuery?.parts
                         .filter((part) => part.type === "text")
-                        .map((part) => part.text)
+                        .map((part) => (part as { type: "text"; text: string }).text)
                         .join(" ")}
                     </div>
                     <Loading tool={currentToolCall ?? undefined} />
@@ -161,7 +161,7 @@ export default function CustomChat({onClose}: IAIChat) {
                     <div className="dark:text-neutral-400 text-neutral-500 text-sm w-fit mb-1">
                       {userQuery?.parts
                         .filter((part) => part.type === "text")
-                        .map((part) => part.text)
+                        .map((part) => (part as { type: "text"; text: string }).text)
                         .join(" ")}
                     </div>
                     <AssistantMessage message={lastAssistantMessage} />
@@ -195,7 +195,7 @@ const AssistantMessage = ({ message }: { message: UIMessage | undefined }) => {
         >
           {message.parts
             .filter((part) => part.type === "text")
-            .map((part) => part.text)
+            .map((part) => (part as { type: "text"; text: string }).text)
             .join(" ")}
         </MemoizedReactMarkdown>
       </motion.div>
