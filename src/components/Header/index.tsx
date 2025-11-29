@@ -252,7 +252,7 @@ const Header = () => {
                 <span className="block relative cursor-pointer w-5.5 h-5.5">
                   <span className="du-block absolute right-0 w-full h-full">
                     <span
-                      className={`block relative top-0 left-0 bg-[#116735] rounded-sm w-0 h-0.5 my-1 ease-in-out duration-200 delay-[0] ${
+                      className={`block relative top-0 left-0 bg-[#116735] rounded-sm w-0 h-0.5 my-1 ease-in-out duration-200 delay-0 ${
                         !navigationOpen && "!w-full delay-300"
                       }`}
                     ></span>
@@ -271,7 +271,7 @@ const Header = () => {
                   <span className="block absolute right-0 w-full h-full rotate-45">
                     <span
                       className={`block bg-[#116735] rounded-sm ease-in-out duration-200 delay-300 absolute left-2.5 top-0 w-0.5 h-full ${
-                        !navigationOpen && "!h-0 delay-[0] "
+                        !navigationOpen && "!h-0 delay-0 "
                       }`}
                     ></span>
                     <span

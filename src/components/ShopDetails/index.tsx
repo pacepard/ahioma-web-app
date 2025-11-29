@@ -134,6 +134,7 @@ const ShopDetails = () => {
                         alt="products-details"
                         width={400}
                         height={400}
+                        unoptimized={product.imgs?.previews[previewImg]?.includes('drive.google.com')}
                       />
                     </div>
                   </div>
@@ -155,6 +156,7 @@ const ShopDetails = () => {
                           height={50}
                           src={item}
                           alt="thumbnail"
+                          unoptimized={item?.includes('drive.google.com')}
                         />
                       </button>
                     ))}

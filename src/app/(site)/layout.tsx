@@ -23,14 +23,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [loading, setLoading] = useState<boolean>(true);
+  const [mounted, setMounted] = useState<boolean>(false);
   const pathname = usePathname();
   
   // Check if current page is signup, signin, or onboarding
   const isAuthPage = pathname === '/signup' || pathname === '/signin' || pathname?.startsWith('/onboarding');
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
+    setMounted(true);
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
   }, []);
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return (
+      <html lang="en">
+        <body>
+          <PreLoader />
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en" suppressHydrationWarning={true}>

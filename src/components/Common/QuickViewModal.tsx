@@ -103,7 +103,7 @@ const QuickViewModal = () => {
                       }`}
                     >
                       <Image
-                        src={img || ""}
+                        src={img || "/images/products/product-1-bg-1.png"}
                         alt="thumbnail"
                         width={61}
                         height={61}
@@ -138,7 +138,7 @@ const QuickViewModal = () => {
                     </button>
 
                     <Image
-                      src={product?.imgs?.previews?.[activePreview]}
+                      src={product?.imgs?.previews?.[activePreview] || "/images/products/product-1-bg-1.png"}
                       alt="products-details"
                       width={400}
                       height={400}
