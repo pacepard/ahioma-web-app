@@ -67,7 +67,7 @@ export default function RootLayout({
                 </ModalProvider>
               </CartModalProvider>
             </ReduxProvider>
-            <ScrollToTop />
+            {/* <ScrollToTop /> */}
             {!isAuthPage && <Footer />}
           </>
         )}
