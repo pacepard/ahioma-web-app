@@ -41,8 +41,8 @@ const PaymentStatusDemo = () => {
         <div className="bg-blue-50 p-4 rounded-lg">
           <h4 className="font-medium text-blue-800 mb-2">Payment Flow:</h4>
           <ol className="text-sm text-blue-700 space-y-1">
-            <li>1. Click "Pay ₦1.00" → Shows "Initializing..."</li>
-            <li>2. Popup opens → Shows "Verifying Payment..."</li>
+            <li>1. Click &quot;Pay ₦1.00&quot; → Shows &quot;Initializing...&quot;</li>
+            <li>2. Popup opens → Shows &quot;Verifying Payment...&quot;</li>
             <li>3. Complete payment → Verification happens</li>
             <li>4. Result shown below based on Paystack response</li>
           </ol>
@@ -83,9 +83,9 @@ const PaymentStatusDemo = () => {
       <div className="bg-yellow-50 p-4 rounded-lg">
         <h4 className="font-medium text-yellow-800 mb-2">What Paystack Returns:</h4>
         <div className="text-sm text-yellow-700 space-y-2">
-          <p><strong>Success:</strong> data.status = "success"</p>
-          <p><strong>Failed:</strong> data.status = "failed"</p>
-          <p><strong>Pending:</strong> data.status = "pending"</p>
+          <p><strong>Success:</strong> data.status = &quot;success&quot;</p>
+          <p><strong>Failed:</strong> data.status = &quot;failed&quot;</p>
+          <p><strong>Pending:</strong> data.status = &quot;pending&quot;</p>
           <p><strong>Cancelled:</strong> Popup closed by user</p>
         </div>
       </div>

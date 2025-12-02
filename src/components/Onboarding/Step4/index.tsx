@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import Image from "next/image";
 
 const OnboardingStep4 = () => {
   const [formData, setFormData] = useState({
@@ -48,7 +49,7 @@ const OnboardingStep4 = () => {
             {/* Header with Logo and Progress */}
             <div className="p-6">
               <div className="flex items-center justify-between mb-10">
-                <img src="/images/logo/logo.svg" alt="Ahioma Logo" className="h-8" />
+                <Image src="/images/logo/logo.svg" alt="Ahioma Logo" className="h-8" width={120} height={32} />
                 <div className="text-sm text-gray-500">Step 3 of 4</div>
               </div>
               
@@ -68,7 +69,7 @@ const OnboardingStep4 = () => {
               {/* Verification Icon */}
               <div className="text-center mb-8">
                 <div className="w-20 h-20 mx-auto mb-6 bg-green-50 rounded-full flex items-center justify-center">
-                 <img src="/images/onboarding/verify.png" alt="" />
+                 <Image src="/images/onboarding/verify.png" alt="" width={80} height={80} />
                 </div>
               </div>
 

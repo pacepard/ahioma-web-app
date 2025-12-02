@@ -108,7 +108,7 @@ const OrderSuccess = () => {
                       <div>
                         <h4 className="font-medium text-yellow-800">Order Details Not Available</h4>
                         <p className="text-yellow-700 text-sm mt-1">
-                          We couldn't retrieve your order details. This may be due to an expired session or invalid link.
+                          We couldn&apos;t retrieve your order details. This may be due to an expired session or invalid link.
                           Please check your email for order confirmation or contact support.
                         </p>
                       </div>
@@ -177,7 +177,7 @@ const OrderSuccess = () => {
                       <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
                         1
                       </div>
-                      <p>You'll receive an email confirmation with your order details</p>
+                      <p>You&apos;ll receive an email confirmation with your order details</p>
                     </div>
                     <div className="flex items-start space-x-3">
                       <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
@@ -189,7 +189,7 @@ const OrderSuccess = () => {
                       <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
                         3
                       </div>
-                      <p>You'll get a tracking number once your order ships</p>
+                      <p>You&apos;ll get a tracking number once your order ships</p>
                     </div>
                   </div>
                 </div>

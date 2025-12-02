@@ -3,6 +3,7 @@
 import React, { useEffect } from "react"
 import { motion } from "framer-motion"
 import { FileIcon, X } from "lucide-react"
+import Image from "next/image"
 
 interface FilePreviewProps {
   file: File
@@ -40,11 +41,13 @@ const ImageFilePreview = React.forwardRef<HTMLDivElement, FilePreviewProps>(
         exit={{ opacity: 0, y: "100%" }}
       >
         <div className="flex w-full items-center space-x-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             alt={`Attachment ${file.name}`}
             className="grid h-10 w-10 shrink-0 place-items-center rounded-sm border bg-muted object-cover"
             src={URL.createObjectURL(file)}
+            width={40}
+            height={40}
+            unoptimized
           />
           <span className="w-full truncate text-muted-foreground">
             {file.name}

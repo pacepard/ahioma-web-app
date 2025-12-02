@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import Image from "next/image";
 
 const OnboardingStep2 = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("");
@@ -41,7 +42,7 @@ const OnboardingStep2 = () => {
           <div className="max-w-[500px] w-full mx-auto bg-white h-[93vh] flex flex-col relative">
             {/* Header with Logo and Progress */}
             <div className="flex items-center justify-between p-6 mb-8">
-              <img src="/images/logo/logo.svg" alt="Ahioma Logo" className="h-8" />
+              <Image src="/images/logo/logo.svg" alt="Ahioma Logo" className="h-8" width={120} height={32} />
               <div className="text-sm text-gray-500">Step 1 of 4</div>
             </div>
             
@@ -60,7 +61,7 @@ const OnboardingStep2 = () => {
               {/* Globe Icon */}
               <div className="text-center mb-8">
                 <div className="w-20 h-20 mx-auto mb-6 bg-green-50 rounded-full flex items-center justify-center">
-                  <img src="/images/onboarding/globe.svg" alt="" />
+                  <Image src="/images/onboarding/globe.svg" alt="" width={80} height={80} />
                 </div>
               </div>
 
