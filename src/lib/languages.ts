@@ -73,12 +73,11 @@ export const UI_LABELS: Record<SupportedLanguage, Record<string, string>> = {
     placeholder: 'Ki ba ni tambayi ta kowa...',
     detected: 'An gana',
   },
-  yo:
-    {
-      startConversation: 'Lọ bẹrẹ̀ orí wo àkópọ̀ pẹ̀lú àwọn ìbáṣepọ̀ yíì:',
-      placeholder: 'Be ni ibeere kan si mi...',
-      detected: 'A rí',
-    },
+  yo: {
+    startConversation: 'Lọ bẹrẹ̀ orí wo àkópọ̀ pẹ̀lú àwọn ìbáṣepọ̀ yíì:',
+    placeholder: 'Be ni ibeere kan si mi...',
+    detected: 'A rí',
+  },
 };
 
 /**
@@ -129,8 +128,5 @@ export const getPromptSuggestions = (language: SupportedLanguage): string[] => {
  */
 export const getUILabel = (language: SupportedLanguage, key: string): string => {
   const labels = UI_LABELS[language];
-  if (Array.isArray(labels)) {
-    return labels[0][key] || UI_LABELS.en[key] || '';
-  }
   return labels[key] || UI_LABELS.en[key] || '';
 };

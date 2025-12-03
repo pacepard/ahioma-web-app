@@ -29,25 +29,25 @@ export function AIChat({ onClose }: IAIChat) {
   useEffect(() => {
     const originalFetch = globalThis.fetch;
     
-    globalThis.fetch = ((url: string | Request, options?: RequestInit) => {
-      if (typeof url === 'string' && url.includes('/api/chat')) {
-        const opts = { ...options };
-        if (opts.body && typeof opts.body === 'string') {
-          try {
+    (globalThis as any).fetch = function(url: string | Request, options?: RequestInit) {
+      try {
+        if (typeof url === 'string' && url.includes('/api/chat') && options?.body) {
+          const opts = { ...options };
+          if (typeof opts.body === 'string') {
             const body = JSON.parse(opts.body);
             body.language = detectedLanguage;
             opts.body = JSON.stringify(body);
-          } catch (e) {
-            // If body is not JSON, leave it as is
           }
+          return originalFetch(url, opts);
         }
-        return originalFetch(url, opts);
+      } catch (e) {
+        console.error("Error in fetch override:", e);
       }
-      return originalFetch(url, options as any);
-    }) as any;
+      return originalFetch(url, options);
+    };
     
     return () => {
-      globalThis.fetch = originalFetch;
+      (globalThis as any).fetch = originalFetch;
     };
   }, [detectedLanguage]);
   

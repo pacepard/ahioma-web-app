@@ -22,24 +22,36 @@ export const maxDuration = 30;
 const streamTextModel = "openai/gpt-4o";
 
 export async function POST(req: Request) {
-  const requestBody = await req.json();
-  const messages: UIMessage[] = requestBody.messages || [];
-  const language: SupportedLanguage = (requestBody.language || "en") as SupportedLanguage;
-  
-  // Validate messages
-  if (!messages || messages.length === 0) {
-    return new Response(
-      JSON.stringify({ error: "No messages provided" }),
-      { status: 400, headers: { "Content-Type": "application/json" } }
-    );
-  }
-  
-  // Get appropriate system prompt based on language
-  const systemPrompt = getSystemPrompt(language);
+  try {
+    const requestBody = await req.json();
+    const messages: UIMessage[] = requestBody.messages || [];
+    const language: SupportedLanguage = (requestBody.language || "en") as SupportedLanguage;
+    
+    // Validate messages
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "No messages provided" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+    
+    // Get appropriate system prompt based on language
+    const systemPrompt = getSystemPrompt(language);
 
-  const result = streamText({
-    model: streamTextModel,
-    messages: convertToModelMessages(messages),
+    let convertedMessages;
+    try {
+      convertedMessages = convertToModelMessages(messages);
+    } catch (convertError) {
+      console.error("Error converting messages:", convertError);
+      return new Response(
+        JSON.stringify({ error: "Failed to process messages" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const result = streamText({
+      model: streamTextModel,
+      messages: convertedMessages,
     system: `${systemPrompt}
       Answer questions about products, categories, orders, customers, and coupons.
       Use the available tools for every request and rely only on database knowledge.
@@ -132,6 +144,16 @@ export async function POST(req: Request) {
   });
 
   return result.toUIMessageStreamResponse();
+  } catch (error) {
+    console.error("Chat API error:", error);
+    return new Response(
+      JSON.stringify({ 
+        error: "Failed to process chat request",
+        details: error instanceof Error ? error.message : "Unknown error"
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
 }
 
 // import { createResource } from "@/lib/actions/resources";
