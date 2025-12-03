@@ -13,40 +13,40 @@ const convertDriveUrl = (url: string): string => {
 };
 
 const shopData: Product[] = [
-  {
-    title: "Golden Penny Spaghetti",
-    reviews: 15,
-    price: 55799.0,
-    discountedPrice: 25799.0,
-    id: 1,
-    imgs: {
-      thumbnails: [
-        "/images/products/product-1-bg-1.png",
-        "/images/products/product-1-bg-1.png",
-      ],
-      previews: [
-        "/images/products/product-1-bg-1.png",
-        "/images/products/product-1-bg-1.png",
-      ],
-    },
-  },
-  {
-    title: "Dangote Refined Sugar",
-    reviews: 5,
-    price: 89999.0,
-    discountedPrice: 59999.0,
-    id: 2,
-    imgs: {
-      thumbnails: [
-        "/images/products/product-2-bg-1.png",
-        "/images/products/product-2-bg-1.png",
-      ],
-      previews: [
-        "/images/products/product-2-bg-1.png",
-        "/images/products/product-2-bg-1.png",
-      ],
-    },
-  },
+  // {
+  //   title: "Golden Penny Spaghetti",
+  //   reviews: 15,
+  //   price: 55799.0,
+  //   discountedPrice: 25799.0,
+  //   id: 1,
+  //   imgs: {
+  //     thumbnails: [
+  //       "/images/products/product-1-bg-1.png",
+  //       "/images/products/product-1-bg-1.png",
+  //     ],
+  //     previews: [
+  //       "/images/products/product-1-bg-1.png",
+  //       "/images/products/product-1-bg-1.png",
+  //     ],
+  //   },
+  // },
+  // {
+  //   title: "Dangote Refined Sugar",
+  //   reviews: 5,
+  //   price: 89999.0,
+  //   discountedPrice: 59999.0,
+  //   id: 2,
+  //   imgs: {
+  //     thumbnails: [
+  //       "/images/products/product-2-bg-1.png",
+  //       "/images/products/product-2-bg-1.png",
+  //     ],
+  //     previews: [
+  //       "/images/products/product-2-bg-1.png",
+  //       "/images/products/product-2-bg-1.png",
+  //     ],
+  //   },
+  // },
   {
     title: "House of Diddy Fascinator",
     reviews: 5,
@@ -73,12 +73,12 @@ const shopData: Product[] = [
     id: 4,
     imgs: {
       thumbnails: [
-        "https://drive.google.com/uc?export=view&id=1V9sPcgjBTrkBTvcTDAjPS_m4pcG7XM7C",
-        "https://drive.google.com/uc?export=view&id=1V9sPcgjBTrkBTvcTDAjPS_m4pcG7XM7C",
+        "/images/products/lotion.png",
+        "/images/products/lotion.png",
       ],
       previews: [
-        "https://drive.google.com/uc?export=view&id=1V9sPcgjBTrkBTvcTDAjPS_m4pcG7XM7C",
-        "https://drive.google.com/uc?export=view&id=1V9sPcgjBTrkBTvcTDAjPS_m4pcG7XM7C",
+        "/images/products/lotion.png",
+        "/images/products/lotion.png",
       ],
     },
   },
@@ -90,13 +90,10 @@ const shopData: Product[] = [
     id: 5,
     imgs: {
       thumbnails: [
-        "https://drive.google.com/uc?export=view&id=1UHcAPOIdjxAmNLnuoi7Ukvkk2TrvT5Zb",
-        "https://drive.google.com/uc?export=view&id=1XF4BW3bsS6Srvsx6ENK0XiHcWROvfyy5",
+        "/images/products/3ml.png",
       ],
       previews: [
-        "https://drive.google.com/uc?export=view&id=1UHcAPOIdjxAmNLnuoi7Ukvkk2TrvT5Zb",
-        "https://drive.google.com/uc?export=view&id=1XF4BW3bsS6Srvsx6ENK0XiHcWROvfyy5",
-        "https://drive.google.com/uc?export=view&id=10bC-hEkymI83KgP4maWySzuddiZ0TzVj",
+        "/images/products/3ml.png",
       ],
     },
   },
@@ -108,13 +105,10 @@ const shopData: Product[] = [
     id: 6,
     imgs: {
       thumbnails: [
-        "https://drive.google.com/uc?export=view&id=10gVRT0YYUxQlb6OOO5h29b7JgxmYkCNP",
-        "https://drive.google.com/uc?export=view&id=1TP88J985JKIGhwbcbVOKah1u0AMSmUn_",
+        "/images/products/3ml.png",
       ],
       previews: [
-        "https://drive.google.com/uc?export=view&id=10gVRT0YYUxQlb6OOO5h29b7JgxmYkCNP",
-        "https://drive.google.com/uc?export=view&id=1TP88J985JKIGhwbcbVOKah1u0AMSmUn_",
-        "https://drive.google.com/uc?export=view&id=1aSWbTH63knWfVTSd2gShy1H56uGXfsol",
+        "/images/products/3ml.png",
       ],
     },
   },
@@ -126,13 +120,10 @@ const shopData: Product[] = [
     id: 7,
     imgs: {
       thumbnails: [
-        "https://drive.google.com/uc?export=view&id=1aSWbTH63knWfVTSd2gShy1H56uGXfsol",
-        "https://drive.google.com/uc?export=view&id=1UHcAPOIdjxAmNLnuoi7Ukvkk2TrvT5Zb",
+        "/images/products/10ml.png",
       ],
       previews: [
-        "https://drive.google.com/uc?export=view&id=1aSWbTH63knWfVTSd2gShy1H56uGXfsol",
-        "https://drive.google.com/uc?export=view&id=1UHcAPOIdjxAmNLnuoi7Ukvkk2TrvT5Zb",
-        "https://drive.google.com/uc?export=view&id=1XF4BW3bsS6Srvsx6ENK0XiHcWROvfyy5",
+        "/images/products/10ml.png",
       ],
     },
   },
@@ -144,13 +135,10 @@ const shopData: Product[] = [
     id: 8,
     imgs: {
       thumbnails: [
-        "https://drive.google.com/uc?export=view&id=1AeBzAeqscL0QDOfgIxpNfwgkdAg8jSyP",
-        "https://drive.google.com/uc?export=view&id=1AeBzAeqscL0QDOfgIxpNfwgkdAg8jSyP",
+        "/images/products/30ml.png",
       ],
       previews: [
-        "https://drive.google.com/uc?export=view&id=1AeBzAeqscL0QDOfgIxpNfwgkdAg8jSyP",
-        "https://drive.google.com/uc?export=view&id=10bC-hEkymI83KgP4maWySzuddiZ0TzVj",
-        "https://drive.google.com/uc?export=view&id=10gVRT0YYUxQlb6OOO5h29b7JgxmYkCNP",
+        "/images/products/30ml.png",
       ],
     },
   },
@@ -162,15 +150,10 @@ const shopData: Product[] = [
     id: 9,
     imgs: {
       thumbnails: [
-        "https://drive.google.com/uc?export=view&id=176F0sGhx-MAxvpLQPB7-p0bmnWeYjK6Z",
-        "https://drive.google.com/uc?export=view&id=1nEfqXsJ1dlt8cXXQbklH-j34SEQKK8dv",
+        "/images/products/bedding.png",
       ],
       previews: [
-        "https://drive.google.com/uc?export=view&id=176F0sGhx-MAxvpLQPB7-p0bmnWeYjK6Z",
-        "https://drive.google.com/uc?export=view&id=1nEfqXsJ1dlt8cXXQbklH-j34SEQKK8dv",
-        "https://drive.google.com/uc?export=view&id=1iuBEQ5TaPTzZyJB5KlYDvvJw_Gs9svBG",
-        "https://drive.google.com/uc?export=view&id=1rhdtgu4lh5Hy5qpK-2wcvI0tydBpq8dP",
-        "https://drive.google.com/uc?export=view&id=1TJHXTZPWq2Tr8kFqGV7Fr0LPsEl0l6V3",
+        "/images/products/bedding.png",
       ],
     },
   },
@@ -182,15 +165,10 @@ const shopData: Product[] = [
     id: 10,
     imgs: {
       thumbnails: [
-        "https://drive.google.com/uc?export=view&id=17EaZKpBW1gWj6P2rSqG2NeqjcG4KokTE",
-        "https://drive.google.com/uc?export=view&id=1X38fYBtMev1YtjF1MqXQYTXUZ-t_iPuB",
+        "/images/products/pams.png",
       ],
       previews: [
-        "https://drive.google.com/uc?export=view&id=17EaZKpBW1gWj6P2rSqG2NeqjcG4KokTE",
-        "https://drive.google.com/uc?export=view&id=1X38fYBtMev1YtjF1MqXQYTXUZ-t_iPuB",
-        "https://drive.google.com/uc?export=view&id=1PIlxyLaRaf4o1bbzKjlxXaDPbNJmJ9ge",
-        "https://drive.google.com/uc?export=view&id=1IPkO-Ae6SbF-FN0lKv58NvbCL7uNFx10",
-        "https://drive.google.com/uc?export=view&id=1glHUkWIlfqrisluMi2VJ_Ac95VTTQiYc",
+        "/images/products/pams.png",
       ],
     },
   },

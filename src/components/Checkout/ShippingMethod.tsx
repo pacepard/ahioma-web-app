@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Image from "next/image";
 
 const ShippingMethod = () => {
   const [shippingMethod, setShippingMethod] = useState("free");
@@ -33,86 +32,6 @@ const ShippingMethod = () => {
               ></div>
             </div>
             Free Shipping
-          </label>
-
-          <label
-            htmlFor="fedex"
-            className="flex cursor-pointer select-none items-center gap-3.5"
-          >
-            <div className="relative">
-              <input
-                type="checkbox"
-                name="fedex"
-                id="fedex"
-                className="sr-only"
-                onChange={() => setShippingMethod("fedex")}
-              />
-              <div
-                className={`flex h-4 w-4 items-center justify-center rounded-full ${
-                  shippingMethod === "fedex"
-                    ? "border-4 border-blue"
-                    : "border border-gray-4"
-                }`}
-              ></div>
-            </div>
-
-            <div className="rounded-md border-[0.5px] py-3.5 px-5 ease-out duration-200 hover:bg-gray-2 hover:border-transparent hover:shadow-none">
-              <div className="flex items-center">
-                <div className="pr-4">
-                  <Image
-                    src="/images/checkout/fedex.svg"
-                    alt="fedex"
-                    width={64}
-                    height={18}
-                  />
-                </div>
-
-                <div className="border-l border-gray-4 pl-4">
-                  <p className="font-semibold text-dark">₦150.99</p>
-                  <p className="text-custom-xs">Standard Shipping</p>
-                </div>
-              </div>
-            </div>
-          </label>
-
-          <label
-            htmlFor="dhl"
-            className="flex cursor-pointer select-none items-center gap-3.5"
-          >
-            <div className="relative">
-              <input
-                type="checkbox"
-                name="dhl"
-                id="dhl"
-                className="sr-only"
-                onChange={() => setShippingMethod("dhl")}
-              />
-              <div
-                className={`flex h-4 w-4 items-center justify-center rounded-full ${
-                  shippingMethod === "dhl"
-                    ? "border-4 border-blue"
-                    : "border border-gray-4"
-                }`}
-              ></div>
-            </div>
-
-            <div className="rounded-md border-[0.5px] py-3.5 px-5 ease-out duration-200 hover:bg-gray-2 hover:border-transparent hover:shadow-none">
-              <div className="flex items-center">
-                <div className="pr-4">
-                  <Image
-                    src="/images/checkout/dhl.svg"
-                    alt="dhl"
-                    width={64}
-                    height={20}
-                  />
-                </div>
-
-                <div className="border-l border-gray-4 pl-4">
-                  <p className="font-semibold text-dark">₦120.50</p>
-                  <p className="text-custom-xs">Standard Shipping</p>
-                </div>
-              </div>
-            </div>
           </label>
         </div>
       </div>
