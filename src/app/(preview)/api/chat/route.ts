@@ -24,28 +24,70 @@ const streamTextModel = "openai/gpt-4o";
 export async function POST(req: Request) {
   try {
     const requestBody = await req.json();
-    const messages: UIMessage[] = requestBody.messages || [];
+    // Support multiple request shapes: { messages: [...] } or { input: 'text' } or { text: '...' }
+    let messages: UIMessage[] | undefined = requestBody.messages;
     const language: SupportedLanguage = (requestBody.language || "en") as SupportedLanguage;
-    
-    // Validate messages
+
+    // If messages missing, try to recover from a single text field
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
-      return new Response(
-        JSON.stringify({ error: "No messages provided" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      const fallbackText = requestBody.input || requestBody.text || requestBody.message;
+      if (typeof fallbackText === 'string' && fallbackText.trim().length > 0) {
+        messages = [
+          {
+            role: 'user',
+            parts: [{ type: 'text', text: fallbackText }],
+          } as any,
+        ];
+      } else {
+        console.error('Malformed chat request body:', requestBody);
+        return new Response(
+          JSON.stringify({ error: 'No messages provided' }),
+          { status: 400, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
     }
     
     // Get appropriate system prompt based on language
     const systemPrompt = getSystemPrompt(language);
 
+    // Sanitize messages to ensure predictable shape for convertToModelMessages
+    const sanitizedMessages: UIMessage[] = (messages as UIMessage[]).map((m: any) => {
+      // Ensure parts is an array of {type: 'text', text: string}
+      let parts: any[] = [];
+
+      if (Array.isArray(m.parts)) {
+        parts = m.parts
+          .map((p: any) => ({ type: p?.type ?? 'text', text: p?.text ?? p?.content ?? '' }))
+          .filter((p: any) => typeof p.text === 'string');
+      }
+
+      if ((!parts || parts.length === 0) && typeof m.text === 'string') {
+        parts = [{ type: 'text', text: m.text }];
+      }
+
+      if ((!parts || parts.length === 0) && typeof m.content === 'string') {
+        parts = [{ type: 'text', text: m.content }];
+      }
+
+      // Ensure at least one text part exists
+      if (!parts || parts.length === 0) {
+        parts = [{ type: 'text', text: '' }];
+      }
+
+      return {
+        ...m,
+        parts,
+      } as UIMessage;
+    });
+
     let convertedMessages;
     try {
-      convertedMessages = convertToModelMessages(messages);
+      convertedMessages = convertToModelMessages(sanitizedMessages);
     } catch (convertError) {
-      console.error("Error converting messages:", convertError);
+      console.error('Error converting messages. requestBody:', requestBody, 'convertError:', convertError);
       return new Response(
-        JSON.stringify({ error: "Failed to process messages" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
+        JSON.stringify({ error: 'Failed to process messages', details: String(convertError) }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 

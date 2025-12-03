@@ -14,7 +14,6 @@ import {
 } from "@/lib/language-detection";
 import { 
   getPromptSuggestions, 
-  getUILabel,
   type SupportedLanguage 
 } from "@/lib/languages";
 
@@ -23,10 +22,12 @@ export interface IAIChat {
 }
 
 export function AIChat({ onClose }: IAIChat) {
+
   const [detectedLanguage, setDetectedLanguage] = useState<SupportedLanguage>("en");
   
   // Override fetch globally to include language parameter
   useEffect(() => {
+    
     const originalFetch = globalThis.fetch;
     
     (globalThis as any).fetch = function(url: string | Request, options?: RequestInit) {
@@ -150,23 +151,19 @@ export function AIChat({ onClose }: IAIChat) {
   // };
 
   // Fix: Define 'append' for PromptSuggestions to use. It should send the suggestion text.
-  const append = ({ text }: { text: string }) => {
+  const append = (payload: { text?: string; content?: string; role?: string } | string) => {
+    // Normalize payload to a text string. PromptSuggestions sends { role, content }
+    const text = typeof payload === 'string' ? payload : payload.text ?? payload.content ?? '';
+
+    if (!text || text.trim().length === 0) return;
+
     // Auto-detect language from suggestion text
     const detectedLang = detectLanguageFromText(text);
     setDetectedLanguage(detectedLang);
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: crypto.randomUUID(),
-        role: "user",
-        text,
-      } as any, // cast to any to satisfy TS for the optimistic render
-    ]);
     
     // Send message using useChat
-    sendMessage({ text, role: "user" });
-    setInput("");
+    sendMessage({ text, role: 'user' });
+    setInput('');
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
