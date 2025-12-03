@@ -3,7 +3,7 @@ import { PAYSTACK_CONFIG, validatePaystackConfig } from '@/lib/paystack';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { reference: string } }
+  { params }: { params: Promise<{ reference: string }> }
 ) {
   try {
     // Validate Paystack configuration
@@ -14,7 +14,7 @@ export async function GET(
       );
     }
 
-    const { reference } = params;
+    const { reference } = await params;
 
     // Validate reference
     if (!reference || typeof reference !== 'string') {

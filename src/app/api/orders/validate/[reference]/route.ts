@@ -3,10 +3,10 @@ import { PAYSTACK_CONFIG } from '@/lib/paystack';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { reference: string } }
+  { params }: { params: Promise<{ reference: string }> }
 ) {
   try {
-    const { reference } = params;
+    const { reference } = await params;
 
     // Validate reference format (should match our generation pattern)
     if (!reference || !reference.startsWith('ahiaoma_')) {
