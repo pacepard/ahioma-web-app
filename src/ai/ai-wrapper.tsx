@@ -2,9 +2,7 @@
 
 import { AIChatButton } from "@/ai/ai-button";
 import { AIChat } from "@/ai/ai-chat";
-import CustomChat from "@/ai/chat";
 import { LoadingIcon, LogoIcon } from "@/components/Icons/icons";
-import { Chat } from "@/components/ui/chat";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +11,6 @@ import {
   DialogOverlay,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Bot } from "lucide-react";
 import { useState } from "react";
 
 interface AIButtonWrapperProps {

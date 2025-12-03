@@ -27,8 +27,15 @@ export async function POST(req: Request) {
       response_format: "json",
     });
 
+    // Extract detected language from result
+    // Whisper returns the detected language in the response
+    const detectedLanguage = (result as any).language || "en";
+
     return new Response(
-      JSON.stringify({ transcription: result.text }),
+      JSON.stringify({ 
+        transcription: result.text,
+        language: detectedLanguage 
+      }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
 

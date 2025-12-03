@@ -6,13 +6,51 @@ import { ChatContainer, ChatForm, ChatMessages } from "@/components/ui/chat";
 import { MessageInput } from "@/components/ui/message-input";
 import { MessageList } from "@/components/ui/message-list";
 import { PromptSuggestions } from "@/components/ui/prompt-suggestions";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { 
+  detectLanguageFromText, 
+  detectUserLanguage,
+  formatLanguageCode
+} from "@/lib/language-detection";
+import { 
+  getPromptSuggestions, 
+  getUILabel,
+  type SupportedLanguage 
+} from "@/lib/languages";
 
 export interface IAIChat {
   onClose: () => void;
 }
 
 export function AIChat({ onClose }: IAIChat) {
+  const [detectedLanguage, setDetectedLanguage] = useState<SupportedLanguage>("en");
+  
+  // Override fetch globally to include language parameter
+  useEffect(() => {
+    const originalFetch = globalThis.fetch;
+    
+    globalThis.fetch = ((url: string | Request, options?: RequestInit) => {
+      if (typeof url === 'string' && url.includes('/api/chat')) {
+        const opts = { ...options };
+        if (opts.body && typeof opts.body === 'string') {
+          try {
+            const body = JSON.parse(opts.body);
+            body.language = detectedLanguage;
+            opts.body = JSON.stringify(body);
+          } catch (e) {
+            // If body is not JSON, leave it as is
+          }
+        }
+        return originalFetch(url, opts);
+      }
+      return originalFetch(url, options as any);
+    }) as any;
+    
+    return () => {
+      globalThis.fetch = originalFetch;
+    };
+  }, [detectedLanguage]);
+  
   const { messages, setMessages, status, sendMessage, stop } = useChat();
 
   const [input, setInput] = useState("");
@@ -42,6 +80,7 @@ export function AIChat({ onClose }: IAIChat) {
    * 🎤 Function to handle audio transcription
    * This is passed to MessageInput and called when recording stops.
    * It calls the Vercel API Route you need to create: /api/transcribe-audio
+   * Returns the transcribed text (MessageInput expects Promise<string>)
    */
   const transcribeAudio = async (blob: Blob): Promise<string> => {
     // Create a File object from the Blob to send via FormData
@@ -71,7 +110,12 @@ export function AIChat({ onClose }: IAIChat) {
         );
       }
 
-      const { transcription } = await response.json();
+      const { transcription, language } = await response.json();
+      
+      // Auto-detect language from audio result
+      const detectedLang = detectUserLanguage(transcription, language) as SupportedLanguage;
+      setDetectedLanguage(detectedLang);
+      
       return transcription;
     } catch (error) {
       console.error("Error during transcription:", error);
@@ -94,6 +138,9 @@ export function AIChat({ onClose }: IAIChat) {
   const handleTranscriptionComplete = (transcription: string) => {
     // Set the transcribed text into the input field
     setInput(transcription);
+    // Auto-detect language from transcription text
+    const detectedLang = detectLanguageFromText(transcription);
+    setDetectedLanguage(detectedLang);
   };
 
   //    // Fix: Define 'append' for PromptSuggestions to use. It should send the suggestion text.
@@ -102,34 +149,34 @@ export function AIChat({ onClose }: IAIChat) {
   //   sendMessage({ text, role: "user" });
   // };
 
-    // Fix: Define 'append' for PromptSuggestions to use. It should send the suggestion text.
+  // Fix: Define 'append' for PromptSuggestions to use. It should send the suggestion text.
   const append = ({ text }: { text: string }) => {
+    // Auto-detect language from suggestion text
+    const detectedLang = detectLanguageFromText(text);
+    setDetectedLanguage(detectedLang);
 
-      setMessages((prev) => [
-    ...prev,
-    {
-      id: crypto.randomUUID(),
-      role: "user",
-      text,
-    } as any, // cast to any to satisfy TS for the optimistic render
-  ]);
-     const newMessage = {
-    id: crypto.randomUUID(),
-    role: "user" as const,
-    text,
-    parts: [{ type: "text", text }],
-    content: text,
-  };
-
-
-  sendMessage({ text: newMessage.text as string, role: "user" });
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        role: "user",
+        text,
+      } as any, // cast to any to satisfy TS for the optimistic render
+    ]);
+    
+    // Send message using useChat
+    sendMessage({ text, role: "user" });
     setInput("");
   };
-
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (input.trim() !== "") {
+      // Auto-detect language from input
+      const detectedLang = detectLanguageFromText(input);
+      setDetectedLanguage(detectedLang);
+
+      // Send message using useChat (language will be added to request)
       sendMessage({ text: input, role: "user" });
       setInput("");
     }
@@ -140,12 +187,7 @@ export function AIChat({ onClose }: IAIChat) {
       {isEmpty ? (
         <PromptSuggestions
           append={append as any}
-          suggestions={[
-            "List services available on Ahioma?",
-            "How do I track my order?",
-            "Tell me the artisans in Orlu.",
-            "What are your return policies?",
-          ]}
+          suggestions={getPromptSuggestions(detectedLanguage)}
           label="Start a conversation with these prompts:"
         />
       ) : null}
@@ -162,33 +204,43 @@ export function AIChat({ onClose }: IAIChat) {
         handleSubmit={handleSubmit}
       >
         {({ files, setFiles }) => (
-          <MessageInput
-            value={input}
-            onChange={handleInputChange}
-            allowAttachments
-            files={files}
-            setFiles={setFiles}
-            stop={stop}
-            isGenerating={isLoading}
-            transcribeAudio={transcribeAudio}
-            onTranscriptionComplete={handleTranscriptionComplete}
-            className="
-              bg-neutral-100 
-              dark:bg-neutral-700 
-              text-neutral-700
-              dark:text-neutral-300 
-              placeholder:text-neutral-400 
-              dark:placeholder:text-neutral-400
-              [&_input]:bg-neutral-100
-              [&_input]:dark:bg-neutral-700
-              [&_textarea]:bg-neutral-100
-              [&_textarea]:dark:bg-neutral-700
-              [&_input]:text-neutral-700
-              [&_input]:dark:text-neutral-300
-              [&_textarea]:text-neutral-700
-              [&_textarea]:dark:text-neutral-300
-            "
-          />
+          <>
+            {/* Language Detection Badge */}
+            <div className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
+              <span>Language:</span>
+              <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 px-2 py-1 rounded font-semibold">
+                {formatLanguageCode(detectedLanguage)}
+              </span>
+            </div>
+            
+            <MessageInput
+              value={input}
+              onChange={handleInputChange}
+              allowAttachments
+              files={files}
+              setFiles={setFiles}
+              stop={stop}
+              isGenerating={isLoading}
+              transcribeAudio={transcribeAudio}
+              onTranscriptionComplete={handleTranscriptionComplete}
+              className="
+                bg-neutral-100 
+                dark:bg-neutral-700 
+                text-neutral-700
+                dark:text-neutral-300 
+                placeholder:text-neutral-400 
+                dark:placeholder:text-neutral-400
+                [&_input]:bg-neutral-100
+                [&_input]:dark:bg-neutral-700
+                [&_textarea]:bg-neutral-100
+                [&_textarea]:dark:bg-neutral-700
+                [&_input]:text-neutral-700
+                [&_input]:dark:text-neutral-300
+                [&_textarea]:text-neutral-700
+                [&_textarea]:dark:text-neutral-300
+              "
+            />
+          </>
         )}
       </ChatForm>
     </ChatContainer>

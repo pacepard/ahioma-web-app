@@ -9,6 +9,8 @@ import {
 } from "ai";
 import { z } from "zod";
 import { Database } from "@/types/supabase";
+import { getSystemPrompt } from "@/lib/languages";
+import type { SupportedLanguage } from "@/lib/languages";
 
 // Initialize Supabase client
 const supabase = createClient<Database>(
@@ -20,16 +22,28 @@ export const maxDuration = 30;
 const streamTextModel = "openai/gpt-4o";
 
 export async function POST(req: Request) {
-  const { messages }: { messages: UIMessage[] } = await req.json();
+  const requestBody = await req.json();
+  const messages: UIMessage[] = requestBody.messages || [];
+  const language: SupportedLanguage = (requestBody.language || "en") as SupportedLanguage;
+  
+  // Validate messages
+  if (!messages || messages.length === 0) {
+    return new Response(
+      JSON.stringify({ error: "No messages provided" }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
+    );
+  }
+  
+  // Get appropriate system prompt based on language
+  const systemPrompt = getSystemPrompt(language);
 
   const result = streamText({
     model: streamTextModel,
     messages: convertToModelMessages(messages),
-    system: `
-      You are a helpful assistant for an ecommerce website "Ahiaoma".
+    system: `${systemPrompt}
       Answer questions about products, categories, orders, customers, and coupons.
       Use the available tools for every request and rely only on database knowledge.
-      If the requested information isn’t available, respond politely and clearly.
+      If the requested information isn't available, respond politely and clearly.
       Keep answers concise, relevant, and easy to understand.
       Use short sentences or bullet points when appropriate.
     `,
