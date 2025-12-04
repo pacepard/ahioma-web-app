@@ -255,22 +255,22 @@ export function AIChat({ onClose }: IAIChat) {
   };
 
   return (
-    <ChatContainer>
+    <ChatContainer className="h-full">
       {isEmpty ? (
-        <PromptSuggestions
-          append={append as any}
-          suggestions={getPromptSuggestions(detectedLanguage)}
-          label="Start a conversation with these prompts:"
-        />
-      ) : null}
-
-      {!isEmpty ? (
-        <ChatMessages messages={renderedMessages as any}>
+        <div className="overflow-y-auto min-h-0 px-4 py-4">
+          <PromptSuggestions
+            append={append as any}
+            suggestions={getPromptSuggestions(detectedLanguage)}
+            label="Start a conversation with these prompts:"
+          />
+        </div>
+      ) : (
+        <ChatMessages messages={renderedMessages as any} className="min-h-0">
           <MessageList messages={renderedMessages as any} isTyping={isTyping} />
         </ChatMessages>
-      ) : null}
+      )}
 
-      <ChatForm className="mt-auto" isPending={isLoading || isTyping} handleSubmit={handleSubmit}>
+      <ChatForm className="flex-shrink-0" isPending={isLoading || isTyping} handleSubmit={handleSubmit}>
         {({ files, setFiles }) => (
           <>
             {/* Language Detection Badge */}

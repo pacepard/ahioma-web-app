@@ -11,6 +11,8 @@ import { z } from "zod";
 import { Database } from "@/types/supabase";
 import { getSystemPrompt } from "@/lib/languages";
 import type { SupportedLanguage } from "@/lib/languages";
+import shopData from "@/components/Shop/shopData";
+import { getImageContextString } from "@/lib/image-context";
 
 // Initialize Supabase client
 const supabase = createClient<Database>(
@@ -106,15 +108,63 @@ export async function POST(req: Request) {
       );
     }
 
+    // Get image context information
+    const imageContext = getImageContextString();
+    
+    // Format products data for the AI
+    const productsContext = shopData.map(product => ({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      discountedPrice: product.discountedPrice,
+      reviews: product.reviews,
+      imagePath: product.imgs?.previews?.[0] || product.imgs?.thumbnails?.[0] || null,
+    }));
+
     const result = streamText({
       model: streamTextModel,
       messages: convertedMessages,
     system: `${systemPrompt}
-      Answer questions about products, categories, orders, customers, and coupons.
-      Use the available tools for every request and rely only on database knowledge.
-      If the requested information isn't available, respond politely and clearly.
-      Keep answers concise, relevant, and easy to understand.
-      Use short sentences or bullet points when appropriate.
+
+## Your Role
+You are a helpful shopping assistant for Ahioma marketplace. Answer questions about products, categories, orders, customers, and coupons.
+Use the available tools for every request and rely on both database knowledge and the hardcoded product data provided below.
+If the requested information isn't available, respond politely and clearly.
+Keep answers concise, relevant, and easy to understand.
+Use short sentences or bullet points when appropriate.
+
+## Hardcoded Products and Services
+The following products and services are available on Ahioma. Use this information when users ask about what Ahioma offers:
+
+${JSON.stringify(productsContext, null, 2)}
+
+When discussing a product, always include its image using Markdown image syntax. Match the product title to find the correct image path.
+
+## Images Available in Public Folder
+${imageContext}
+
+## How to Include Images in Your Responses
+When your answer matches a product or service, include the relevant image using Markdown syntax:
+\`\`\`markdown
+![Product Name](/images/products/product-name.png)
+\`\`\`
+
+The frontend will automatically render these images in the chat. Always include product images when discussing specific products.
+
+## Image Usage Guidelines
+1. **Product Images**: When discussing any product from the hardcoded list above, include its image using the imagePath provided
+2. **Context Matching**: Use the file names and paths to understand what each image represents
+3. **Always Include Images**: When answering questions about products, services, or what Ahioma offers, mix text and images to provide a rich, visual response
+4. **Image Format**: Use standard Markdown image syntax: \`![alt text](/path/to/image.png)\`
+5. **Multiple Products**: When listing multiple products, include an image for each product mentioned
+
+## Response Style
+- Be friendly, concise, and helpful
+- Mix text and images naturally in your responses
+- When showing products, always include their images
+- Use bullet points or short paragraphs for clarity
+- Include product details (price, reviews) when relevant
+
     `,
     stopWhen: stepCountIs(5),
     tools: {

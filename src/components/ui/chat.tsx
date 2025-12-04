@@ -237,9 +237,12 @@ Chat.displayName = "Chat"
 export function ChatMessages({
   messages,
   children,
+  className,
 }: React.PropsWithChildren<{
   messages: Message[]
-}>) {
+}> & {
+  className?: string
+}) {
   const {
     containerRef,
     scrollToBottom,
@@ -250,7 +253,7 @@ export function ChatMessages({
 
   return (
     <div
-      className="grid grid-cols-1 overflow-y-auto pb-4"
+      className={cn("grid grid-cols-1 overflow-y-auto pb-4 min-h-0 h-full", className)}
       ref={containerRef}
       onScroll={handleScroll}
       onTouchStart={handleTouchStart}
@@ -284,7 +287,10 @@ export const ChatContainer = forwardRef<
   return (
     <div
       ref={ref}
-      className={cn("grid h-screen w-full grid-rows-[1fr_auto] overflow-hidden", className)}
+      className={cn("grid w-full grid-rows-[1fr_auto] overflow-hidden", 
+        // Only use h-screen if h-full or h-* is not provided
+        !className?.includes("h-") && "h-screen",
+        className)}
       {...props}
     />
   )
