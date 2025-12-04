@@ -13,6 +13,7 @@ import { getSystemPrompt } from "@/lib/languages";
 import type { SupportedLanguage } from "@/lib/languages";
 import shopData from "@/components/Shop/shopData";
 import { getImageContextString } from "@/lib/image-context";
+import { openai } from "@/lib/ai-provider";
 
 
 export const runtime = "nodejs";
@@ -27,7 +28,7 @@ const supabase = createClient<Database>(
 );
 
 export const maxDuration = 30;
-const streamTextModel = "openai/gpt-4o";
+const streamTextModel = openai("gpt-4o");
 
 export async function POST(req: Request) {
   try {
