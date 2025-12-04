@@ -41,18 +41,18 @@ const hybridSearch = async <T extends { id: string }>(
   const queryEmbedding = await generateEmbedding(query);
 
   const { data: keywordResultsRaw } = await supabase
-    .from<T, "public">(table)
+    .from(table as any)
     .select('*')
     .textSearch(textColumn, query, { type: 'websearch' })
     .limit(limit * 2);
 
-  const { data: semanticResultsRaw } = await supabase.rpc<T, "public">(rpcFunction, {
+  const { data: semanticResultsRaw } = await (supabase as any).rpc(rpcFunction, {
     query_embedding: queryEmbedding,
     match_count: limit * 2
   });
 
-  const keywordResults = Array.isArray(keywordResultsRaw) ? keywordResultsRaw : [];
-  const semanticResults = Array.isArray(semanticResultsRaw) ? semanticResultsRaw : [];
+  const keywordResults = Array.isArray(keywordResultsRaw) ? (keywordResultsRaw as unknown as T[]) : [];
+  const semanticResults = Array.isArray(semanticResultsRaw) ? (semanticResultsRaw as unknown as T[]) : [];
 
   return rrf(keywordResults, semanticResults).slice(0, limit);
 };
