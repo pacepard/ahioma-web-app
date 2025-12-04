@@ -32,6 +32,7 @@ const SingleItem = ({ item, removeItemFromCart }) => {
             <a href="#"> {item.title} </a>
           </h3>
           <p className="text-custom-sm">Price: ₦{item.discountedPrice}</p>
+          <p className="text-custom-sm text-dark">Quantity: {item.quantity}</p>
         </div>
       </div>
 
