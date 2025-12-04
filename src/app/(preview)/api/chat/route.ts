@@ -50,34 +50,49 @@ export async function POST(req: Request) {
     // Get appropriate system prompt based on language
     const systemPrompt = getSystemPrompt(language);
 
-    // Sanitize messages to ensure predictable shape for convertToModelMessages
+    // Rebuild messages to match convertToModelMessages expectations
     const sanitizedMessages: UIMessage[] = (messages as UIMessage[]).map((m: any) => {
-      // Ensure parts is an array of {type: 'text', text: string}
-      let parts: any[] = [];
+      const role = m.role || 'user';
 
-      if (Array.isArray(m.parts)) {
-        parts = m.parts
-          .map((p: any) => ({ type: p?.type ?? 'text', text: p?.text ?? p?.content ?? '' }))
-          .filter((p: any) => typeof p.text === 'string');
+      // For assistant messages with tool calls, preserve the parts structure
+      if (role === 'assistant' && Array.isArray(m.parts) && m.parts.some((p: any) => p.type === 'tool-call' || p.type === 'tool-result')) {
+        // Keep tool parts as-is, but ensure text parts are properly formatted
+        const parts = m.parts.map((p: any) => {
+          if (p.type === 'text' && typeof p.text === 'string') return p;
+          if (p.type === 'tool-call') return p;
+          if (p.type === 'tool-result') return p;
+          // fallback for malformed parts
+          return { type: 'text', text: p?.text ?? p?.content ?? '' };
+        });
+        return { ...m, role, parts, content: undefined } as UIMessage;
       }
 
+      // For tool role messages
+      if (role === 'tool') {
+        const parts = Array.isArray(m.parts) ? m.parts : [];
+        return { ...m, role, parts, content: undefined } as UIMessage;
+      }
+
+      // For user and system messages, ensure we have parts array
+      let parts: any[] = [];
+      if (Array.isArray(m.parts)) {
+        parts = m.parts.filter((p: any) => p && (p.type === 'text' || !p.type));
+      }
+
+      // Fallback to extracting text from string content
       if ((!parts || parts.length === 0) && typeof m.text === 'string') {
         parts = [{ type: 'text', text: m.text }];
       }
-
       if ((!parts || parts.length === 0) && typeof m.content === 'string') {
         parts = [{ type: 'text', text: m.content }];
       }
 
-      // Ensure at least one text part exists
+      // Ensure at least one valid part
       if (!parts || parts.length === 0) {
         parts = [{ type: 'text', text: '' }];
       }
 
-      return {
-        ...m,
-        parts,
-      } as UIMessage;
+      return { ...m, role, parts, content: undefined } as UIMessage;
     });
 
     let convertedMessages;
