@@ -18,6 +18,7 @@ export interface IAIChat {
   onClose: () => void;
 }
 
+
 export function AIChat({ onClose }: IAIChat) {
   const [detectedLanguage, setDetectedLanguage] = useState<SupportedLanguage>("en");
   const languageRef = useRef<SupportedLanguage>("en");
