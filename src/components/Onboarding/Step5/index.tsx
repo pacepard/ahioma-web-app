@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import Image from "next/image";
 
 const OnboardingStep5 = () => {
   const [products, setProducts] = useState([""]);
@@ -54,7 +55,7 @@ const OnboardingStep5 = () => {
             {/* Header with Logo and Progress */}
             <div className="p-6">
               <div className="flex items-center justify-between mb-10">
-                <img src="/images/logo/logo.svg" alt="Ahioma Logo" className="h-8" />
+                <Image src="/images/logo/logo.svg" alt="Ahioma Logo" className="h-8" width={120} height={32} />
               </div>
               
               {/* Progress Bar */}
@@ -73,7 +74,7 @@ const OnboardingStep5 = () => {
               {/* Product Icon */}
               <div className="text-center mb-8">
                 <div className="w-20 h-20 mx-auto mb-6 bg-green-50 rounded-full flex items-center justify-center">
-                 <img src="/images/onboarding/product.svg" alt="" />
+                 <Image src="/images/onboarding/product.svg" alt="" width={80} height={80} />
                 </div>
               </div>
 

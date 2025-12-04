@@ -10,11 +10,21 @@ const SingleItem = ({ item, removeItemFromCart }) => {
     dispatch(removeItemFromCart(item.id));
   };
 
+  // Clean and validate image source
+  const getImageSrc = () => {
+    const imageSrc = item.imgs?.thumbnails?.[0];
+    if (!imageSrc || typeof imageSrc !== 'string') {
+      return '/images/products/product-1-bg-1.png'; // fallback image
+    }
+    // Trim whitespace and control characters
+    return imageSrc.trim().replace(/[\r\n\t]/g, '');
+  };
+
   return (
     <div className="flex items-center justify-between gap-5">
       <div className="w-full flex items-center gap-6">
         <div className="flex items-center justify-center rounded-[10px] bg-gray-3 max-w-[90px] w-full h-22.5">
-          <Image src={item.imgs?.thumbnails[0]} alt="product" width={100} height={100} />
+          <Image src={getImageSrc()} alt="product" width={100} height={100} />
         </div>
 
         <div>
@@ -22,6 +32,7 @@ const SingleItem = ({ item, removeItemFromCart }) => {
             <a href="#"> {item.title} </a>
           </h3>
           <p className="text-custom-sm">Price: ₦{item.discountedPrice}</p>
+          <p className="text-custom-sm text-dark">Quantity: {item.quantity}</p>
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 const OnboardingStep1 = () => {
   return (
@@ -32,7 +33,7 @@ const OnboardingStep1 = () => {
           <div className="max-w-[500px] w-full mx-auto  bg-white h-[93vh] flex flex-col justify-center">
             {/* Logo */}
             <div className="text-center mb-8">
-              <img src="/images/logo/logo.svg" alt="Ahioma Logo" className="h-10 mx-auto mb-6" />
+              <Image src="/images/logo/logo.svg" alt="Ahioma Logo" className="h-10 mx-auto mb-6" width={120} height={40} />
             </div>
 
             {/* Main Content */}
@@ -48,7 +49,7 @@ const OnboardingStep1 = () => {
 
               {/* Voice Assistant Icon */}
               <div className="mb-6">
-              <img src="/images/onboarding/orange-orb.svg" alt="Voice Assistant" className="h-40 mx-auto" />
+              <Image src="/images/onboarding/orange-orb.svg" alt="Voice Assistant" className="h-40 mx-auto" width={160} height={160} />
               </div>
             </div>
 

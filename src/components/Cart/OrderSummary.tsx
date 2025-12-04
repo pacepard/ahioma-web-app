@@ -2,10 +2,21 @@ import { selectTotalPrice } from "@/redux/features/cart-slice";
 import { useAppSelector } from "@/redux/store";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { useCartModalContext } from "@/app/context/CartSidebarModalContext";
 
 const OrderSummary = () => {
   const cartItems = useAppSelector((state) => state.cartReducer.items);
   const totalPrice = useSelector(selectTotalPrice);
+  const router = useRouter();
+  const { closeCartModal } = useCartModalContext();
+
+  const handleCheckout = () => {
+    // Close cart modal if open
+    closeCartModal();
+    // Navigate to checkout
+    router.push("/checkout");
+  };
 
   return (
     <div className="lg:max-w-[455px] w-full">
@@ -54,7 +65,8 @@ const OrderSummary = () => {
 
           {/* <!-- checkout button --> */}
           <button
-            type="submit"
+            type="button"
+            onClick={handleCheckout}
             className="w-full flex justify-center font-medium text-white bg-blue py-3 px-6 rounded-md ease-out duration-200 hover:bg-blue-dark mt-7.5"
           >
             Process to Checkout

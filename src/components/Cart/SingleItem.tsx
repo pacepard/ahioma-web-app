@@ -13,6 +13,16 @@ const SingleItem = ({ item }) => {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  // Clean and validate image source
+  const getImageSrc = () => {
+    const imageSrc = item.imgs?.thumbnails?.[0];
+    if (!imageSrc || typeof imageSrc !== 'string') {
+      return '/images/products/product-1-bg-1.png'; // fallback image
+    }
+    // Trim whitespace and control characters
+    return imageSrc.trim().replace(/[\r\n\t]/g, '');
+  };
+
   const handleRemoveFromCart = () => {
     dispatch(removeItemFromCart(item.id));
   };
@@ -37,7 +47,7 @@ const SingleItem = ({ item }) => {
         <div className="flex items-center justify-between gap-5">
           <div className="w-full flex items-center gap-5.5">
             <div className="flex items-center justify-center rounded-[5px] bg-gray-2 max-w-[80px] w-full h-17.5">
-              <Image width={200} height={200} src={item.imgs?.thumbnails[0]} alt="product" />
+              <Image width={200} height={200} src={getImageSrc()} alt="product" />
             </div>
 
             <div>
