@@ -7,8 +7,39 @@ import "swiper/css/pagination";
 import "swiper/css";
 
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { addItemToCart } from "@/redux/features/cart-slice";
+import { Product } from "@/types/product";
+import { useCartModalContext } from "@/app/context/CartSidebarModalContext";
 
 const HeroCarousal = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { openCartModal } = useCartModalContext();
+
+  // Honey product for hero carousel
+  const honeyProduct: Product = {
+    id: 1,
+    title: "Original Ell Novelty Honey",
+    price: 5000,
+    discountedPrice: 3500,
+    imgs: {
+      thumbnails: ["/images/hero/hero-001.png"],
+      previews: ["/images/hero/hero-001.png"],
+    },
+    reviews: 128,
+  };
+
+  const handleAddToCart = () => {
+    dispatch(
+      addItemToCart({
+        ...honeyProduct,
+        quantity: 1,
+      })
+    );
+    openCartModal();
+  };
+
   return (
     <Swiper
       spaceBetween={30}
@@ -47,12 +78,12 @@ const HeroCarousal = () => {
               and rich antioxidants that nature intended.
             </p>
 
-            <a
-              href="#"
+            <button
+              onClick={handleAddToCart}
               className="inline-flex font-medium text-white text-custom-sm rounded-md bg-[#116735] py-3 px-9 ease-out duration-200 hover:bg-blue mt-10"
             >
               Shop Now
-            </a>
+            </button>
           </div>
 
           <div >
@@ -89,12 +120,12 @@ const HeroCarousal = () => {
               and rich antioxidants that nature intended.
             </p>
 
-            <a
-              href="#"
+            <button
+              onClick={handleAddToCart}
               className="inline-flex font-medium text-white text-custom-sm rounded-md bg-[#116735] py-3 px-9 ease-out duration-200 hover:bg-blue mt-10"
             >
               Shop Now
-            </a>
+            </button>
           </div>
 
           <div>
