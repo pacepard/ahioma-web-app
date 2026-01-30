@@ -21,17 +21,37 @@ export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
 
-// Initialize Supabase client
-const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+// Supabase client will be lazily initialized inside the request handler to avoid requiring env vars at build-time.
 
 export const maxDuration = 30;
-const streamTextModel = openai("gpt-4o");
 
 export async function POST(req: Request) {
   try {
+    // Initialize OpenAI model lazily and handle missing API key gracefully
+    let streamTextModel;
+    try {
+      streamTextModel = openai("gpt-4o");
+    } catch (err) {
+      console.error("OpenAI initialization error:", err);
+      return new Response(
+        JSON.stringify({ error: "OpenAI not configured", details: err instanceof Error ? err.message : String(err) }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Initialize Supabase client lazily and error clearly if env missing
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnon) {
+      console.error("Supabase not configured: missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
+      return new Response(
+        JSON.stringify({ error: "Supabase not configured", details: "NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY is missing in environment" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const supabase = createClient<Database>(supabaseUrl, supabaseAnon);
     const requestBody = await req.json();
     // Support multiple request shapes: { messages: [...] } or { input: 'text' } or { text: '...' }
     let messages: UIMessage[] | undefined = requestBody.messages;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const CustomSelect = ({ options }) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(options[0]);
 
@@ -11,6 +13,11 @@ const CustomSelect = ({ options }) => {
   const handleOptionClick = (option) => {
     setSelectedOption(option);
     toggleDropdown();
+    
+    // Navigate to shop page with category filter if not "All Categories"
+    if (option.value !== "0") {
+      router.push(`/shop-with-sidebar?category=${option.value}`);
+    }
   };
 
   useEffect(() => {

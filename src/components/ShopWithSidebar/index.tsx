@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Breadcrumb from "../Common/Breadcrumb";
 import CustomSelect from "./CustomSelect";
 import CategoryDropdown from "./CategoryDropdown";
@@ -12,10 +13,14 @@ import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
 
 const ShopWithSidebar = () => {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+  
   const [productStyle, setProductStyle] = useState("grid");
   const [productSidebar, setProductSidebar] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(categoryParam);
   const productsPerPage = 9;
 
   const handleStickyMenu = () => {
@@ -100,12 +105,17 @@ const ShopWithSidebar = () => {
     };
   });
 
+  // Filter products by category if category is selected
+  const filteredProducts = selectedCategory 
+    ? shopData.filter(product => product.category === selectedCategory)
+    : shopData;
+
   // Calculate pagination
-  const totalProducts = shopData.length;
+  const totalProducts = filteredProducts.length;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
-  const currentProducts = shopData.slice(startIndex, endIndex);
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
   const startProduct = startIndex + 1;
   const endProduct = Math.min(endIndex, totalProducts);
 
